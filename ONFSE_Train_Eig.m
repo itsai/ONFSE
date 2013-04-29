@@ -1,6 +1,6 @@
 function [TotalFACE,TotalMeanFACE,PCA,pcaTotalFACE,SW,SB,SWpool,SWvector,SBpool,SBvector,NFSEeig,NFSEeigvalue,latent]= ONFSE_Train_Eig
 
-people=5;          %所有人
+people=68;          %所有人
 
 individualsample=8; %(15->12, 12->15, 9->19,  6->29, 5_>34, 3->57) %170張挑8張，可以用Random方式
 
@@ -192,8 +192,8 @@ for i=1:individualsample:(people*individualsample)         %for(i=1; i<8*(68*8);
         SBpool=[]; %  為了暫存每一筆資料的所有點到線的向量，才能以neighbor的概念選擇neighbor數
         
         
-for m=1:nearestneighbor_sb         
-OA=FACE(j,:)-SBcombination(m,:);            
+        for m=1:nearestneighbor_sb-1         
+            OA=FACE(j,:)-SBcombination(m,:);            
                 for n=m+1:nearestneighbor_sb                          %m=1, n=1~7
                     OB=SBcombination(n,:)-SBcombination(m,:);
                     OM=((OA*OB')/(OB*OB'))*OB;
@@ -217,7 +217,7 @@ OA=FACE(j,:)-SBcombination(m,:);
                     %end % end of if
                end % end of n
            end % end of m
-       end % end of k
+       
         %SB=SB+tempSB;%*exp(-SBtempdis_0/(2*Avgtotaldis));
         
         %-------- 從 neighbor 中依序從最短者選出 within 的向量來算cov----------
@@ -227,6 +227,7 @@ OA=FACE(j,:)-SBcombination(m,:);
         end
         %----------------------------------------------------------------------         
         sbcount=sbcount+1
+	end % end of j
 end % end of i
 %------------------------------------------------
 
